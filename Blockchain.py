@@ -2,6 +2,7 @@ from hashlib import sha256
 import json
 import time
 
+#this is the raw block data
 class Block:
     '''
     Block is defined as the following:
@@ -12,21 +13,37 @@ class Block:
     previous_hash = hash of the last block
     index = the unique indentifier number
     '''
-    def __init__(self, type, created_on, verified_by, quantity, previous_hash, index):
-        self.index = index
-        self.type = type
-        self.created_on = created_on
-        self.verified_by = verified_by
-        self.quantity = quantity
+    def __init__(self, type, created_on, verified_by, quantity, previous_hash, block_hash, index):
+        self.index = index  # serial number
+        self.type = type  #name of medication
+        self.created_on = created_on   #timestamp of creation
+        self.verified_by = verified_by   #user who tested batch
+        self.quantity = quantity   #dosage amount
+        self.block_hash = block_hash
         self.previous_hash = previous_hash
 
     #override str to allow easy printing of blocks
     def __str__(self):
         return str(self.__class__) + ": " + str(self.__dict__)
 
+    def print_value_table(self):
+        data_Dict = {
+            "type": self.type,
+            "created_on": self.created_on,
+            "verifed_by": self.verified_by,
+            "quantity": self.quantity,
+            "index": self.index}
+        return data_Dict
+
     def compute_hash(self):
         # Generates hash of contents of block, applied sha256
-        block_str = json.dumps(self.__dict__, sort_keys=True)
+        data_Dict = {
+  		"type": self.type,
+  		"created_on": self.created_on,
+  		"verifed_by": self.verified_by,
+        "quantity": self.quantity,
+        "index":  self.index }
+        block_str = json.dumps(data_Dict, sort_keys=True)
         return sha256(block_str.encode()).hexdigest()
 
 class Blockchain:
@@ -41,8 +58,8 @@ class Blockchain:
     def create_genesis_block(self):
         #Genesis block is the first block in the chain, has zero values and a starting index
 
-        genesis_block = Block("null", time.ctime(), "null", "null", "null", 12345)
-        genesis_block.hash = genesis_block.compute_hash()
+        genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=12345, block_hash="null")
+        genesis_block.block_hash = genesis_block.compute_hash()
         self.chain.append(genesis_block)
 
     def print_chain(self):
@@ -67,7 +84,6 @@ class Blockchain:
 
             new_index = self.last_block.index + 1
 
-            self.chain.append(Block(type, created_on, verified_by, quantity, self.last_block.compute_hash(), new_index))
+            self.chain.append(Block(type, created_on, verified_by, quantity, self.last_block.block_hash, "null", new_index))
 
             return True
-
