@@ -84,6 +84,18 @@ class Blockchain:
 
             new_index = self.last_block.index + 1
 
-            self.chain.append(Block(type, created_on, verified_by, quantity, self.last_block.block_hash, "null", new_index))
+            temp_block = Block(type, created_on, verified_by, quantity, self.last_block.block_hash, "null", new_index)
+            this_hash = temp_block.compute_hash()
+            temp_block.block_hash = this_hash
+            self.chain.append(temp_block)
 
             return True
+
+    def append_new_block(self, type, verified_by, quantity):
+        created_on = time.ctime()
+        new_index = self.last_block.index + 1
+        temp_block = Block(type, created_on, verified_by, quantity, self.last_block.block_hash, "null", new_index)
+        this_hash = temp_block.compute_hash()
+        temp_block.block_hash = this_hash
+        self.chain.append(temp_block)
+

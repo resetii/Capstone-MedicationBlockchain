@@ -7,7 +7,8 @@ def main():
 
     chain1 = Blockchain()
     chain1.create_genesis_block()
-    chain1.generate_block()
+    for n in range(1):
+        chain1.generate_block()
     chain1.print_chain()
 
 if __name__ == '__main__':
