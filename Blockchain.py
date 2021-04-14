@@ -10,6 +10,7 @@ class Block:
     created_on = timestamp for block creation
     verified_by = user who tested/entered the dose into system
     quantity = amount in that package (string value to allow for different dosage types (i.e. grams, ounces, etc))
+    block_hash = hash of the data contained in values {type, created_on, verified_by, quantity, index} in json format
     previous_hash = hash of the last block
     index = the unique indentifier number
     '''
@@ -43,6 +44,8 @@ class Block:
   		"verifed_by": self.verified_by,
         "quantity": self.quantity,
         "index":  self.index }
+
+        # Dumps bit data from the json format to prep it for sha256 hash
         block_str = json.dumps(data_Dict, sort_keys=True)
         return sha256(block_str.encode()).hexdigest()
 
@@ -98,4 +101,15 @@ class Blockchain:
         this_hash = temp_block.compute_hash()
         temp_block.block_hash = this_hash
         self.chain.append(temp_block)
+
+    '''
+    def find_by_index(self, val):
+        # this is a standard exponential search { https://stackabuse.com/search-algorithms-in-python/ }
+        if self[0].index == val:
+            return 0
+        index = 1
+        while index < len(lys) and self[index] <= val:
+            index = index * 2
+        return BinarySearch(arr[:min(index, len(self))], val)
+    '''
 
