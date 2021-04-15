@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from Blockchain import *
 
-app = Flask(__name__())
+app = Flask(__name__)
 '''
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///records.db'
 
@@ -28,7 +28,8 @@ class Records(db.model):
 @app.route('/')
 def index():
     return render_template("index.html")
-
+"""
 @app.route('/dataentry')
 def index():
     return render_template("index.html")
+"""
