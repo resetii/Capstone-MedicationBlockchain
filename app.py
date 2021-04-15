@@ -27,9 +27,7 @@ class Records(db.model):
 '''
 @app.route('/')
 def index():
-    return render_template("index.html")
-"""
+    return "Medical Records"
 @app.route('/dataentry')
 def index():
     return render_template("index.html")
-"""
