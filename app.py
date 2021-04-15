@@ -29,5 +29,5 @@ class Records(db.model):
 def index():
     return "Medical Records"
 @app.route('/dataentry')
-def index():
+def datapage():
     return render_template("index.html")
