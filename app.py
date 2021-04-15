@@ -6,7 +6,7 @@ from Blockchain import *
 app = Flask(__name__)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///records.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///records'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 # initialize db
 db = SQLAlchemy(app)
