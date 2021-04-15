@@ -26,5 +26,4 @@ class Records(db.model):
 
 @app.route('/')
 def index():
-    title = "Medical Record Blockchain"
-    return render_template("index.html", title=title)
+    return render_template("index.html")
