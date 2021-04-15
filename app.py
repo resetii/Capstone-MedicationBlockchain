@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///records'
 db = SQLAlchemy(app)
 
 # database model
-class Records(db.model):
+class Records(db.Model):
     index = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(200), nullable=False)
     #     created_on = db.Column(db.Datetime, default=datetime.utcnow)
