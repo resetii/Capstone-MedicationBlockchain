@@ -4,8 +4,9 @@ from datetime import datetime
 from Blockchain import *
 
 app = Flask(__name__)
-'''
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///records.db'
+
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///records.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///records'
 
 # initialize db
 db = SQLAlchemy(app)
@@ -24,10 +25,11 @@ class Records(db.model):
     # return when new item added
     def __repr__(self):
         return '<block_hash>' % self.index
-'''
+
 @app.route('/')
 def index():
     return "Medical Records"
+
 @app.route('/dataentry')
 def datapage():
     return render_template("index.html")
