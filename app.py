@@ -29,7 +29,7 @@ class Records(db.Model):
 
 @app.route('/')
 def index():
-    return "Medical Records"
+    return render_template("main_page.html")
 
 @app.route('/dataentry')
 def datapage():
