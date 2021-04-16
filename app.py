@@ -36,5 +36,5 @@ def datapage():
     return render_template("index.html")
 
 @app.route('/records')
-def datapage():
+def recordspage():
     return render_template("records.html")
