@@ -29,8 +29,12 @@ class Records(db.Model):
 
 @app.route('/')
 def index():
-    return render_template("main_page.html")
+    return render_template("home.html")
 
 @app.route('/dataentry')
 def datapage():
     return render_template("index.html")
+
+@app.route('/records')
+def datapage():
+    return render_template("records.html")
