@@ -101,15 +101,3 @@ class Blockchain:
         this_hash = temp_block.compute_hash()
         temp_block.block_hash = this_hash
         self.chain.append(temp_block)
-
-    '''
-    def find_by_index(self, val):
-        # this is a standard exponential search { https://stackabuse.com/search-algorithms-in-python/ }
-        if self[0].index == val:
-            return 0
-        index = 1
-        while index < len(lys) and self[index] <= val:
-            index = index * 2
-        return BinarySearch(arr[:min(index, len(self))], val)
-    '''
-
