@@ -35,6 +35,14 @@ def index():
 def datapage():
     return render_template("index.html")
 
+@app.route("/dataadd", methods=['POST'])
+def dataadd():
+    mname = request.form["type"]
+    pname = request.form["verified_by"]
+    Qname = request.form["quantity"]
+    entry = 
+    
+
 @app.route('/records')
 def recordspage():
     return render_template("records.html")
