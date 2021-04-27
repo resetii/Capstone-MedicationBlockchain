@@ -88,7 +88,7 @@ def datapage():
                     verified_by=person,
                     quantity=quantity,
                     block_hash=new_block_hash,
-                    previous_hash=gen_block_hash[0])
+                    previous_hash=gen_block_hash)
                 print("created new block")
 
                 db.session.add(newBlock)
