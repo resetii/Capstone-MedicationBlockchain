@@ -33,13 +33,14 @@ def index():
 def datapage():
     errors = []
     results = {}
+    print("got to data page")
     if request.method == "POST":
         # get info that the user has entered
         try:
             meds = request.form['Mname']
             person = request.form['Pname']
             quantity = request.form['Qname']
-
+            print("someone typed here")
 
             testForGenesis = db.session.query(Records.block_hash).last()
             if testForGenesis:
@@ -54,6 +55,7 @@ def datapage():
 
         except:
             errors.append("Invalid data entry.")
+            print("except block error jump")
 
     return render_template('index.html', errors=errors, results=results)
 
