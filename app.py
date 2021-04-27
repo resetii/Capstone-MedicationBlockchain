@@ -49,16 +49,17 @@ def datapage():
                 print("entered if not lasthash")
                 genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
                 gen_hash = genesis_block.compute_hash()
+                print("computed hash")
 
                 newRecords = Records(
-                    index= genesis_block.index,
-                    type = genesis_block.type,
-                    created_on = genesis_block.created_on,
-                    verified_by = genesis_block.verified_by,
-                    quantity = genesis_block.quantity,
-                    block_hash = gen_hash,
-                    previous_hash = "empty",
-                )
+                    index=genesis_block.index,
+                    type=genesis_block.type,
+                    created_on=genesis_block.created_on,
+                    verified_by=genesis_block.verified_by,
+                    quantity=genesis_block.quantity,
+                    block_hash=gen_hash,
+                    previous_hash="empty")
+                print("created new record")
 
                 db.session.add(newRecords)
                 db.session.commit()
@@ -71,8 +72,8 @@ def datapage():
                     verified_by=person,
                     quantity=quantity,
                     block_hash=new_block_hash,
-                    previous_hash=gen_hash,
-                )
+                    previous_hash=gen_hash)
+                print("created new block")
 
                 db.session.add(newBlock)
                 db.session.commit()
@@ -82,14 +83,15 @@ def datapage():
             else:
                 print(" else statement")
                 new_block_hash = Block.compute_hash(meds, person, quantity)
+                print("computed else new hash")
                 newBlock = Records(
                     type=meds,
                     created_on=time.ctime(),
                     verified_by=person,
                     quantity=quantity,
                     block_hash=new_block_hash,
-                    previous_hash=lastBlockHash,
-                )
+                    previous_hash=lastBlockHash)
+                print("created else new block")
 
                 db.session.add(newBlock)
                 db.session.commit()
