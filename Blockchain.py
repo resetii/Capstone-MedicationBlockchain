@@ -47,6 +47,17 @@ class Block:
         block_str = json.dumps(data_Dict, sort_keys=True)
         return sha256(block_str.encode()).hexdigest()
 
+    def compute_hash(self, type, verified_by, quantity):
+        # Generates hash of contents of block, applied sha256
+        data_Dict = {
+            "type": type,
+            "verifed_by": verified_by,
+            "quantity": quantity}
+
+        # Dumps bit data from the json format to prep it for sha256 hash
+        block_str = json.dumps(data_Dict, sort_keys=True)
+        return sha256(block_str.encode()).hexdigest()
+
 
 class Blockchain:
     def __init__(self):

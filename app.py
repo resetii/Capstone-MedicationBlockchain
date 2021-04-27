@@ -36,26 +36,60 @@ def datapage():
     print("got to data page")
     if request.method == "POST":
         # get info that the user has entered
-        #try:
+        try:
             meds = request.form['Mname']
             person = request.form['Pname']
             quantity = request.form['Qname']
             print("someone typed here")
 
-            testForGenesis = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
-            if testForGenesis:
-                print("exists")
-            else:
-                print("Fail")
-            # if not testForGenesis:
-            #     newBlock = Block()
-            #     compHash = newBlock.compute_hash()
-            #
-            # highestIndex = db.session.query(index).last()
+            lastBlockHash = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
 
-        #except:
+            if not lastBlockHash:
+                genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
+                gen_hash = genesis_block.compute_hash()
+
+                newRecords = Records(
+                    index= genesis_block.index,
+                    type = genesis_block.type,
+                    created_on = genesis_block.created_on,
+                    verified_by = genesis_block.verified_by,
+                    quantity = genesis_block.quantity,
+                    block_hash = gen_hash,
+                    previous_hash = "empty",
+                )
+
+                db.session.add(newRecords)
+                db.session.commit()
+
+                new_block_hash = Block.compute_hash(meds, person, quantity)
+                newBlock = Records(
+                    type=meds,
+                    created_on=time.ctime(),
+                    verified_by=person,
+                    quantity=quantity,
+                    block_hash=new_block_hash,
+                    previous_hash=gen_hash,
+                )
+
+                db.session.add(newBlock)
+                db.session.commit()
+
+            else:
+                new_block_hash = Block.compute_hash(meds, person, quantity)
+                newBlock = Records(
+                    type=meds,
+                    created_on=time.ctime(),
+                    verified_by=person,
+                    quantity=quantity,
+                    block_hash=new_block_hash,
+                    previous_hash=lastBlockHash,
+                )
+
+                db.session.add(newBlock)
+                db.session.commit()
+
+        except:
             errors.append("Invalid data entry.")
-            print("except block error jump")
 
     return render_template('index.html', errors=errors, results=results)
 
