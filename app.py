@@ -93,7 +93,12 @@ def datapage():
 
                 db.session.add(newBlock)
                 db.session.commit()
-                print("commit new block")
+                print("commit block after gen: {} {} {} {} {} {}".format(meds,
+                                                                      time.ctime(),
+                                                                      person,
+                                                                      quantity,
+                                                                      new_block_hash,
+                                                                      lastBlockHash))
 
 
             else:
@@ -111,6 +116,12 @@ def datapage():
 
                 db.session.add(newBlock)
                 db.session.commit()
+                print("non genesis add var: {} {} {} {} {} {}".format(meds,
+                    time.ctime(),
+                    person,
+                    quantity,
+                    new_block_hash,
+                    lastBlockHash))
                 print("commit after else statement")
 
         except:
