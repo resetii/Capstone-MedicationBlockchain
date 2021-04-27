@@ -5,8 +5,6 @@ from datetime import datetime
 from Blockchain import *
 
 app = Flask(__name__)
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///records.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 
 # initialize db
@@ -31,18 +29,35 @@ class Records(db.Model):
 def index():
     return render_template("home.html")
 
-@app.route('/dataentry')
+@app.route('/dataentry', methods=['GET','POST'])
 def datapage():
-    return render_template("index.html")
+    errors = []
+    results = {}
+    if request.method == "POST":
+        # get info that the user has entered
+        try:
+            meds = request.form['Mname']
+            person = request.form['Pname']
+            quantity = request.form['Qname']
 
-@app.route("/dataadd", methods=['POST'])
-def dataadd():
-    mname = request.form["type"]
-    pname = request.form["verified_by"]
-    Qname = request.form["quantity"]
-    entry = 
-    
+
+            testForGenesis = db.session.query(Records.block_hash).last()
+            if testForGenesis:
+                print("exists")
+            else:
+                print("Fail")
+            # if not testForGenesis:
+            #     newBlock = Block()
+            #     compHash = newBlock.compute_hash()
+            #
+            # highestIndex = db.session.query(index).last()
+
+        except:
+            errors.append("Invalid data entry.")
+
+    return render_template('index.html', errors=errors, results=results)
 
 @app.route('/records')
 def recordspage():
-    return render_template("records.html")
+    allRecords = db.session.query(Records).all()
+    return render_template("records.html", allRecords=allRecords)
