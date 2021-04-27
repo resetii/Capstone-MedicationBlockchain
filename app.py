@@ -25,10 +25,10 @@ class Records(db.Model):
     def __repr__(self):
         return '<block_hash>' % self.index
 
-# def error_handling():
-#     return 'Error: {}. {}, line: {}'.format(sys.exc_info()[0],
-#                                          sys.exc_info()[1],
-#                                          sys.exc_info()[2].tb_lineno)
+def error_handling():
+    return 'Error: {}. {}, line: {}'.format(sys.exc_info()[0],
+                                         sys.exc_info()[1],
+                                         sys.exc_info()[2].tb_lineno)
 
 def compute_hash(type, verified_by, quantity):
     # Generates hash of contents of block, applied sha256
@@ -87,8 +87,8 @@ def datapage():
                     created_on=time.ctime(),
                     verified_by=person,
                     quantity=quantity,
-                    block_hash=new_block_hash[0],
-                    previous_hash=gen_block_hash)
+                    block_hash=new_block_hash,
+                    previous_hash=gen_block_hash[0])
                 print("created new block")
 
                 db.session.add(newBlock)
@@ -110,8 +110,8 @@ def datapage():
                     created_on=time.ctime(),
                     verified_by=person,
                     quantity=quantity,
-                    block_hash=new_block_hash[0],
-                    previous_hash=lastBlockHash)
+                    block_hash=new_block_hash,
+                    previous_hash=lastBlockHash[0])
                 print("created else new block")
 
                 db.session.add(newBlock)
@@ -125,10 +125,10 @@ def datapage():
                 print("commit after else statement")
 
         except:
-            #logging.error(error_handling())
+            logging.error(error_handling())
             errors.append("Invalid data entry.")
             print("fall through try block")
-            #print(logging)
+            print(logging)
 
     return render_template('index.html', errors=errors, results=results)
 
