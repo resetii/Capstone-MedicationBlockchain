@@ -13,27 +13,32 @@
   <a href="dataentry">Data Entry</a>
 </div>
 
-<table style="width:95%">
-  <tr>
-    <th>Name of Medication:</th>
-    <th>Verified by:</th>
-    <th>Quantity/Dosage: </th>
-	<th>Hash Value: </th>
-  </tr>
-  <tr>
-    <td>#Names go here</td>
-    <td>#Doctors go here</td>
-    <td>#DOSAGE GOES HERE</td>
-	<td>#Hash Value</td>
-  </tr>
-  <tr>
-    <td>#Names go here</td>
-    <td>#Doctors go here</td>
-    <td>#DOSAGE GOES HERE</td>
-	<td>#Hash Value</td>
-  </tr>
-  
-</table>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Medication</th>
+      <th scope="col">Verified by:</th>
+      <th scope="col">Quantity/Dosage</th>
+      <th scope="col">Time</th>
+	  <th scope="col">Block Hash</th>
+	  <th scope="col">Previous Hash</th>
+    </tr>
+  </thead>
+	{% for medicine in records %}
+	<tr>
+	<th scope="row">{{Records.type}}</th>
+	<td>{{Records.verified_by}}
+	</td>
+	<td>{{Records.created_on}}
+	</td>
+	<td>{{Records.quantity}}
+	</td>
+	<td>{{Records.block_hash}}
+	</td>
+	<td>{{Records.previous_hash}}
+	</td>
+	<td>{{Records.block_hash}}
+	</td>
 
 </body>
 </html>
