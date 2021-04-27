@@ -24,21 +24,22 @@
 	  <th scope="col">Previous Hash</th>
     </tr>
   </thead>
-	{% for medicine in records %}
+	{% for medicine in allRecords %}
 	<tr>
-	<th scope="row">{{Records.type}}</th>
-	<td>{{Records.verified_by}}
+	<th scope="row">{{medicine.type}}</th>
+	<td>{{medicine.verified_by}}
 	</td>
-	<td>{{Records.created_on}}
+	<td>{{medicine.created_on}}
 	</td>
-	<td>{{Records.quantity}}
+	<td>{{medicine.quantity}}
 	</td>
-	<td>{{Records.block_hash}}
+	<td>{{medicine.block_hash}}
 	</td>
-	<td>{{Records.previous_hash}}
+	<td>{{medicine.previous_hash}}
 	</td>
-	<td>{{Records.block_hash}}
+	<td>{{medicine.block_hash}}
 	</td>
-
+{% endfor %}
+</table>
 </body>
 </html>
