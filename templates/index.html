@@ -14,7 +14,7 @@
 </div>
 
 
-<form role="form" method='POST' action='/dataentry'>
+<form role="form" method="POST" action="post-method.php">
   <label for="mname">Name of Medication:</label><br>
   <input type="text" id="mname" name="mname"><br>
   <label for="Pname">Who verified the dose:</label><br>
@@ -26,3 +26,10 @@
 
 </body>
 </html>
+<?php
+$db = pg_connect("host=ec2-34-233-0-64.compute-1.amazonaws.com port=5432 dbname=dgu4t90mbeds
+ user=cwupynsqarczyv password=770453361e2833226d4428f20cb910b5ad9eebf66a9fa6787b745de88841a18f");
+$query = "INSERT INTO book VALUES ('$_POST[mname]','$_POST[Pname]',
+'$_POST[Qname]')";
+$result = pg_query($query); 
+?>
