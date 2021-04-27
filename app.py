@@ -87,7 +87,7 @@ def datapage():
                     created_on=time.ctime(),
                     verified_by=person,
                     quantity=quantity,
-                    block_hash=new_block_hash,
+                    block_hash=new_block_hash[0],
                     previous_hash=gen_block_hash)
                 print("created new block")
 
@@ -110,7 +110,7 @@ def datapage():
                     created_on=time.ctime(),
                     verified_by=person,
                     quantity=quantity,
-                    block_hash=new_block_hash,
+                    block_hash=new_block_hash[0],
                     previous_hash=lastBlockHash)
                 print("created else new block")
 
