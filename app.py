@@ -42,7 +42,7 @@ def datapage():
             quantity = request.form['Qname']
             print("someone typed here")
 
-            testForGenesis = db.session.query(Records.block_hash).last()
+            testForGenesis = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
             if testForGenesis:
                 print("exists")
             else:
