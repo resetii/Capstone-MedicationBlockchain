@@ -1,4 +1,4 @@
-import os
+import os, logging
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -25,6 +25,11 @@ class Records(db.Model):
     def __repr__(self):
         return '<block_hash>' % self.index
 
+def error_handling():
+    return 'Error: {}. {}, line: {}'.format(sys.exc_info()[0],
+                                         sys.exc_info()[1],
+                                         sys.exc_info()[2].tb_lineno)
+
 @app.route('/')
 def index():
     return render_template("home.html")
@@ -41,24 +46,35 @@ def datapage():
             person = request.form['Pname']
             quantity = request.form['Qname']
             print("someone typed here")
+            print(time.ctime())
 
             lastBlockHash = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
             print("found last block hash")
 
             if not lastBlockHash:
                 print("entered if not lasthash")
-                genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
-                gen_hash = genesis_block.compute_hash()
-                print("computed hash")
-
+                # genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
+                # gen_hash = genesis_block.compute_hash()
+                # print("computed hash")
+                #
+                # newRecords = Records(
+                #     index=genesis_block.index,
+                #     type=genesis_block.type,
+                #     created_on=genesis_block.created_on,
+                #     verified_by=genesis_block.verified_by,
+                #     quantity=genesis_block.quantity,
+                #     block_hash=gen_hash,
+                #     previous_hash="empty")
+                gen_block_hash = Block.compute_hash("", "", "")
                 newRecords = Records(
-                    index=genesis_block.index,
-                    type=genesis_block.type,
-                    created_on=genesis_block.created_on,
-                    verified_by=genesis_block.verified_by,
-                    quantity=genesis_block.quantity,
-                    block_hash=gen_hash,
-                    previous_hash="empty")
+                    type="meds",
+                    created_on=time.ctime(),
+                    verified_by="person",
+                    quantity="quantity",
+                    block_hash=gen_block_hash,
+                    previous_hash="gen_hash")
+
+
                 print("created new record")
 
                 db.session.add(newRecords)
@@ -98,8 +114,10 @@ def datapage():
                 print("commit after else statement")
 
         except:
+            logging.error(error_handling())
             errors.append("Invalid data entry.")
             print("fall through try block")
+            print(logging)
 
     return render_template('index.html', errors=errors, results=results)
 
