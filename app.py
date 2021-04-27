@@ -64,18 +64,7 @@ def datapage():
 
             if not lastBlockHash:
                 print("entered if not lasthash")
-                # genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
-                # gen_hash = genesis_block.compute_hash()
-                # print("computed hash")
-                #
-                # newRecords = Records(
-                #     index=genesis_block.index,
-                #     type=genesis_block.type,
-                #     created_on=genesis_block.created_on,
-                #     verified_by=genesis_block.verified_by,
-                #     quantity=genesis_block.quantity,
-                #     block_hash=gen_hash,
-                #     previous_hash="empty")
+
                 gen_block_hash = compute_hash("empty", "empty", "empty")
                 newRecords = Records(
                     type="meds",
@@ -99,7 +88,7 @@ def datapage():
                     verified_by=person,
                     quantity=quantity,
                     block_hash=new_block_hash,
-                    previous_hash=gen_hash)
+                    previous_hash=gen_block_hash)
                 print("created new block")
 
                 db.session.add(newBlock)
