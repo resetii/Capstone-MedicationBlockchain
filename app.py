@@ -30,6 +30,17 @@ def error_handling():
                                          sys.exc_info()[1],
                                          sys.exc_info()[2].tb_lineno)
 
+def compute_hash(type, verified_by, quantity):
+    # Generates hash of contents of block, applied sha256
+    data_Dict = {
+        "type": type,
+        "verifed_by": verified_by,
+        "quantity": quantity}
+
+    # Dumps bit data from the json format to prep it for sha256 hash
+    block_str = json.dumps(data_Dict, sort_keys=True)
+    return sha256(block_str.encode()).hexdigest()
+
 @app.route('/')
 def index():
     return render_template("home.html")
@@ -65,7 +76,7 @@ def datapage():
                 #     quantity=genesis_block.quantity,
                 #     block_hash=gen_hash,
                 #     previous_hash="empty")
-                gen_block_hash = Block.compute_hash("", "", "")
+                gen_block_hash = compute_hash("empty", "empty", "empty")
                 newRecords = Records(
                     type="meds",
                     created_on=time.ctime(),
@@ -81,7 +92,7 @@ def datapage():
                 db.session.commit()
                 print("commit gen hash")
 
-                new_block_hash = Block.compute_hash(meds, person, quantity)
+                new_block_hash = compute_hash(meds, person, quantity)
                 newBlock = Records(
                     type=meds,
                     created_on=time.ctime(),
@@ -98,7 +109,7 @@ def datapage():
 
             else:
                 print(" else statement")
-                new_block_hash = Block.compute_hash(meds, person, quantity)
+                new_block_hash = compute_hash(meds, person, quantity)
                 print("computed else new hash")
                 newBlock = Records(
                     type=meds,
@@ -125,3 +136,5 @@ def datapage():
 def recordspage():
     allRecords = db.session.query(Records).all()
     return render_template("records.html", allRecords=allRecords)
+
+
