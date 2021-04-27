@@ -25,10 +25,10 @@ class Records(db.Model):
     def __repr__(self):
         return '<block_hash>' % self.index
 
-def error_handling():
-    return 'Error: {}. {}, line: {}'.format(sys.exc_info()[0],
-                                         sys.exc_info()[1],
-                                         sys.exc_info()[2].tb_lineno)
+# def error_handling():
+#     return 'Error: {}. {}, line: {}'.format(sys.exc_info()[0],
+#                                          sys.exc_info()[1],
+#                                          sys.exc_info()[2].tb_lineno)
 
 def compute_hash(type, verified_by, quantity):
     # Generates hash of contents of block, applied sha256
@@ -125,10 +125,10 @@ def datapage():
                 print("commit after else statement")
 
         except:
-            logging.error(error_handling())
+            #logging.error(error_handling())
             errors.append("Invalid data entry.")
             print("fall through try block")
-            print(logging)
+            #print(logging)
 
     return render_template('index.html', errors=errors, results=results)
 
@@ -137,4 +137,24 @@ def recordspage():
     allRecords = db.session.query(Records).all()
     return render_template("records.html", allRecords=allRecords)
 
+'''
+@app.route('/search', methods=['GET','POST'])
+def searchFunction():
+    errors = []
+    if request.method == "POST":
+        # get info that the user has entered
+        try:
+            searchHash = request.form['Mname']
 
+
+            lastBlockHash = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
+
+
+        except:
+            logging.error(error_handling())
+            errors.append("Invalid data entry.")
+            print("fall through try block")
+            print(logging)
+    return render_template("records.html", result=allRecords)
+
+'''
