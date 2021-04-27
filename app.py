@@ -36,7 +36,7 @@ def datapage():
     print("got to data page")
     if request.method == "POST":
         # get info that the user has entered
-        try:
+        #try:
             meds = request.form['Mname']
             person = request.form['Pname']
             quantity = request.form['Qname']
@@ -53,7 +53,7 @@ def datapage():
             #
             # highestIndex = db.session.query(index).last()
 
-        except:
+        #except:
             errors.append("Invalid data entry.")
             print("except block error jump")
 
