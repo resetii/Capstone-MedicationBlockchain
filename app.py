@@ -43,8 +43,10 @@ def datapage():
             print("someone typed here")
 
             lastBlockHash = db.session.query(Records.block_hash).order_by(Records.index.desc()).first()
+            print("found last block hash")
 
             if not lastBlockHash:
+                print("entered if not lasthash")
                 genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
                 gen_hash = genesis_block.compute_hash()
 
@@ -60,6 +62,7 @@ def datapage():
 
                 db.session.add(newRecords)
                 db.session.commit()
+                print("commit gen hash")
 
                 new_block_hash = Block.compute_hash(meds, person, quantity)
                 newBlock = Records(
@@ -73,8 +76,11 @@ def datapage():
 
                 db.session.add(newBlock)
                 db.session.commit()
+                print("commit new block")
+
 
             else:
+                print(" else statement")
                 new_block_hash = Block.compute_hash(meds, person, quantity)
                 newBlock = Records(
                     type=meds,
@@ -87,9 +93,11 @@ def datapage():
 
                 db.session.add(newBlock)
                 db.session.commit()
+                print("commit after else statement")
 
         except:
             errors.append("Invalid data entry.")
+            print("fall through try block")
 
     return render_template('index.html', errors=errors, results=results)
 
