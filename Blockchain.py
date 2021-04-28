@@ -1,8 +1,7 @@
-from hashlib import sha256
 import json
 import time
+from hashlib import sha256
 
-#this is the raw block data
 class Block:
     '''
     Block is defined as the following:
@@ -23,10 +22,11 @@ class Block:
         self.block_hash = block_hash
         self.previous_hash = previous_hash
 
-    #override str to allow easy printing of blocks
+    #override str to allow easier printing of blocks
     def __str__(self):
         return str(self.__class__) + ": " + str(self.__dict__)
 
+    # Returns block in dict format
     def print_value_table(self):
         data_Dict = {
             "type": self.type,
@@ -36,8 +36,9 @@ class Block:
             "index": self.index}
         return data_Dict
 
+    # Computes hash by forming the core data a dict format, encoding it through sha256 and the applying hex formatting
     def compute_hash(self):
-        # Generates hash of contents of block, applied sha256
+        # Generates hash of contents of block, applies sha256
         data_Dict = {
   		"type": self.type,
   		"verifed_by": self.verified_by,
@@ -47,18 +48,16 @@ class Block:
         block_str = json.dumps(data_Dict, sort_keys=True)
         return sha256(block_str.encode()).hexdigest()
 
+    # compute_hash override taking values directly
     def compute_hash(self, type, verified_by, quantity):
-        # Generates hash of contents of block, applied sha256
         data_Dict = {
             "type": type,
             "verifed_by": verified_by,
             "quantity": quantity}
-
-        # Dumps bit data from the json format to prep it for sha256 hash
         block_str = json.dumps(data_Dict, sort_keys=True)
         return sha256(block_str.encode()).hexdigest()
 
-
+# Blockchain implements Block class
 class Blockchain:
     def __init__(self):
         self.chain = []
@@ -69,9 +68,8 @@ class Blockchain:
         return self.chain[-1]
 
     def create_genesis_block(self):
-        #Genesis block is the first block in the chain, has zero values and a starting index
-
-        genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=12345, block_hash="null")
+        #Genesis block is the first block in the chain, has zero values and a starting index of 1. Still gets time stamped
+        genesis_block = Block(type="null", created_on=time.ctime(), verified_by="null", quantity="null", previous_hash="null", index=1, block_hash="null")
         genesis_block.block_hash = genesis_block.compute_hash()
         self.chain.append(genesis_block)
 
@@ -79,6 +77,7 @@ class Blockchain:
         for block in self.chain:
             print(block)
 
+    # Code to prompt user for input to create block via command line
     def generate_block(self):
         while True:
             type = input("Enter a medication name (0 to exit): ")
@@ -86,7 +85,6 @@ class Blockchain:
                 break
 
             created_on = time.ctime()
-
             verified_by = input("Who tested the batch (0 to exit): ")
             if verified_by == "0":
                 break
@@ -101,9 +99,9 @@ class Blockchain:
             this_hash = temp_block.compute_hash()
             temp_block.block_hash = this_hash
             self.chain.append(temp_block)
-
             return True
 
+    # Append new block to chain taking parameters for type, verified_by, and quantity
     def append_new_block(self, type, verified_by, quantity):
         created_on = time.ctime()
         new_index = self.last_block.index + 1
